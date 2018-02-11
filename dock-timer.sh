@@ -4,10 +4,8 @@
 # in osx 10.7 and above.
 
 usage() {
-	cat <<EOM
-usage: sh $(basename $0) [--fast] [-f] [--reset] [-r]
-	[--delay delay] [-d delay] [--speed speed] [-s speed] [-h] [--help]
-EOM
+	echo "usage: sh $(basename $0) [--fast] [-f] [--reset] [-r]
+	[--delay delay] [-d delay] [--speed speed] [-s speed] [-h] [--help]"
 	exit 0
 }
 
@@ -36,7 +34,7 @@ elif [ "$1" = "--reset" ] || [ "$1" = "-r" ]; then
 	defaults delete com.apple.dock autohide-time-modifier
 	killall Dock
 elif [ "$1" = "--help" ] || [ "$1" = "-h" ]; then usage
-else
+elif [ "$1" = "--delay" ] || [ "$1" = "-d" ] || [ "$1" = "--speed" ] || [ "$1" = "-s" ]; then
 	current_parameter=""
 	delay=""
 	speed=""
@@ -53,4 +51,9 @@ else
 	done
 
 	set_speed "$delay" "$speed"
+else
+	for var in "$@"; do
+		echo "$0: illegal option $var"
+	done
+	usage
 fi
